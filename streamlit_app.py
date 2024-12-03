@@ -3,11 +3,26 @@ import requests
 import os
 
 # Configuration for cloud deployment
-BACKEND_URL = os.environ.get('BACKEND_URL', 'http://localhost:5000')
+BACKEND_URL = "http://localhost:5000"  # Flask backend will run on localhost:5000
 
 st.set_page_config(page_title="Photo Upload", layout="wide")
 
 st.title("Photo Upload Service")
+
+# Add health check endpoint
+@st.cache_data
+def health_check():
+    try:
+        response = requests.get(f"{BACKEND_URL}/health")
+        return response.status_code == 200
+    except:
+        return False
+
+# Show backend status
+if health_check():
+    st.success("Backend service is running")
+else:
+    st.error("Backend service is not available")
 
 # File uploader for multiple files
 uploaded_files = st.file_uploader("Choose photos to upload", type=['png', 'jpg', 'jpeg', 'gif'], accept_multiple_files=True)

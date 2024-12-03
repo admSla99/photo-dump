@@ -17,17 +17,15 @@ COPY . .
 # Create uploads directory
 RUN mkdir -p uploads
 
-# Use environment variables for ports
+# Use environment variable for port
 ENV PORT=8501
-ENV FLASK_PORT=5000
 
-# Expose ports
+# Expose port
 EXPOSE $PORT
-EXPOSE $FLASK_PORT
 
 # Create startup script
 RUN echo '#!/bin/bash\n\
-python app.py --host 0.0.0.0 --port $FLASK_PORT & \
+python app.py & \
 streamlit run --server.port $PORT --server.address 0.0.0.0 streamlit_app.py\
 ' > start.sh && chmod +x start.sh
 

@@ -68,6 +68,4 @@ def health_check():
     return jsonify({'status': 'healthy'}), 200
 
 if __name__ == '__main__':
-    # Use PORT environment variable, default to 5000 if not set
-    port = int(os.environ.get('FLASK_PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='0.0.0.0', port=5000)
